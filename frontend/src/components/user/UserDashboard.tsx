@@ -1,180 +1,178 @@
-import React from 'react';
-import { BookOpen, Target, Bell, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
+import React, { useState } from "react";
 
-interface UserDashboardProps {
-  onNavigate: (page: string) => void;
-}
+const surgeries = [
+  "Hip Surgery on August 25th, 2025 @ 6am",
+  "Knee Replacement on September 10th, 2025 @ 9am",
+  "Shoulder Surgery on October 5th, 2025 @ 11am",
+];
 
-const UserDashboard: React.FC<UserDashboardProps> = ({ onNavigate }) => {
-  const todaysTasks = [
-    { id: 1, task: 'Take morning eye drops', time: '8:00 AM', completed: true },
-    { id: 2, task: 'Complete eye exercises', time: '2:00 PM', completed: false },
-    { id: 3, task: 'Take evening eye drops', time: '8:00 PM', completed: false },
-  ];
+const reminders = [
+  "Take medication at 8:00 AM",
+  "Pre-op fasting starts at 10:00 PM",
+  "Call your care coordinator",
+];
 
-  const upcomingReminders = [
-    { id: 1, type: 'Medication', description: 'Eye drops in 2 hours', priority: 'high' },
-    { id: 2, type: 'Exercise', description: 'Blinking exercises due', priority: 'medium' },
-    { id: 3, type: 'Appointment', description: 'Follow-up with Dr. Smith tomorrow', priority: 'high' },
-  ];
-
-  const milestones = [
-    { day: 'Day 1', status: 'completed', description: 'Initial recovery phase' },
-    { day: 'Day 3', status: 'current', description: 'Vision clarity assessment' },
-    { day: 'Day 7', status: 'upcoming', description: 'First week milestone' },
-    { day: 'Day 14', status: 'upcoming', description: 'Two-week checkup' },
-  ];
+const UserDashboard: React.FC = () => {
+  const [selectedSurgery, setSelectedSurgery] = useState(surgeries[0]);
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl text-white p-6">
-        <h1 className="text-2xl font-bold mb-2">Welcome back, Robert</h1>
-        <p className="text-blue-100">Day 3 of your post-operative recovery</p>
-        <div className="mt-4 bg-white bg-opacity-20 rounded-lg p-3">
-          <p className="text-sm">Recovery Progress: 21%</p>
-          <div className="w-full bg-white bg-opacity-30 rounded-full h-2 mt-2">
-            <div className="bg-white h-2 rounded-full" style={{ width: '21%' }}></div>
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <aside className="w-64 bg-blue-900 text-white flex flex-col p-6">
+        <div className="mb-8 flex items-center space-x-2">
+          <img src="/logo.png" alt="Recover Logo" className="w-10 h-10" />
+          <span className="font-bold text-lg">RECOVER</span>
+        </div>
+        <nav className="flex-1">
+          <ul className="space-y-4">
+            <li className="font-semibold">Patient Dashboard</li>
+            <li>Shop for product</li>
+            <li>Your Care Hub</li>
+            <li>My Progress</li>
+            <li>Reminders</li>
+            <li>Notifications</li>
+            <li>Account</li>
+            <li>My Cards</li>
+            <li>Settings</li>
+            <li>Customer Support</li>
+            <li>Help</li>
+            <li>Log Out</li>
+          </ul>
+        </nav>
+      </aside>
+      {/* Main Content */}
+      <main className="flex-1 p-8">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-bold text-white bg-blue-700 px-4 py-2 rounded">
+              Welcome back, Felicia
+            </h1>
+            <p className="text-blue-700 font-semibold mt-1">
+              One Step Closer To Recovery
+            </p>
+          </div>
+          <div className="flex items-center space-x-2 bg-white rounded px-3 py-2">
+            <input
+              type="text"
+              placeholder="Search Recover here"
+              className="outline-none"
+            />
+            <span className="material-icons text-gray-400">search</span>
           </div>
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Today's Tasks */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Today's Tasks</h2>
-            <CheckCircle size={20} className="text-green-500" />
+        {/* Dashboard Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Left Column */}
+          <div className="space-y-6">
+            {/* Upcoming Surgery Dropdown */}
+            <div className="bg-gray-200 rounded-xl p-4">
+              <label className="block font-semibold mb-2">
+                Upcoming Surgery:
+              </label>
+              <select
+                className="w-full p-2 rounded border"
+                value={selectedSurgery}
+                onChange={(e) => setSelectedSurgery(e.target.value)}
+              >
+                {surgeries.map((surgery) => (
+                  <option key={surgery} value={surgery}>
+                    {surgery}
+                  </option>
+                ))}
+              </select>
+              <button className="mt-3 w-full bg-gray-400 text-white rounded py-2 font-semibold hover:bg-gray-500">
+                View full surgery details
+              </button>
+            </div>
+            {/* Days till surgery */}
+            <div className="bg-gray-200 rounded-xl p-4 flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <span className="bg-blue-700 text-white text-2xl font-bold px-3 py-1 rounded">
+                  2
+                </span>
+                <span className="bg-blue-700 text-white text-2xl font-bold px-3 py-1 rounded">
+                  4
+                </span>
+              </div>
+              <span className="font-semibold">Days till surgery</span>
+            </div>
+            {/* Reminders Card */}
+            <div className="bg-gray-200 rounded-xl p-4">
+              <h3 className="font-semibold mb-2">Reminders</h3>
+              <ul className="list-disc list-inside space-y-1">
+                {reminders.map((reminder, idx) => (
+                  <li key={idx}>{reminder}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="space-y-3">
-            {todaysTasks.map((task) => (
-              <div key={task.id} className="flex items-center space-x-3">
-                <div className={`w-4 h-4 rounded-full border-2 ${
-                  task.completed 
-                    ? 'bg-green-500 border-green-500' 
-                    : 'border-gray-300'
-                }`}>
-                  {task.completed && <div className="w-2 h-2 bg-white rounded-full m-0.5" />}
+          {/* Middle Column */}
+          <div className="space-y-6">
+            {/* Progress Bar */}
+            <div className="bg-gray-200 rounded-xl p-4">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-semibold">Felicia’s Progress:</span>
+                <span className="text-2xl font-bold text-blue-700">33%</span>
+              </div>
+              <div className="w-full bg-blue-100 rounded-full h-4 mb-2">
+                <div
+                  className="bg-blue-500 h-4 rounded-full"
+                  style={{ width: "33%" }}
+                ></div>
+              </div>
+              <p>You are 33% prepared for your surgery!</p>
+              <button className="mt-3 w-full bg-gray-400 text-white rounded py-2 font-semibold hover:bg-gray-500">
+                View more progress here
+              </button>
+            </div>
+          </div>
+          {/* Right Column */}
+          <div>
+            {/* Recovery Picks */}
+            <div className="bg-gray-200 rounded-xl p-4">
+              <h3 className="font-semibold mb-2">
+                Recovery Picks to help you be prepared
+              </h3>
+              <div className="flex space-x-4 overflow-x-auto">
+                <div className="flex flex-col items-center">
+                  <img
+                    src="https://images.pexels.com/photos/3845128/pexels-photo-3845128.jpeg?auto=compress&w=80"
+                    alt="Walker"
+                    className="w-20 h-20 object-cover rounded"
+                  />
+                  <span className="text-xs mt-1 text-center">
+                    Folding Paddle Walker
+                  </span>
                 </div>
-                <div className="flex-1">
-                  <p className={`text-sm font-medium ${
-                    task.completed ? 'text-gray-500 line-through' : 'text-gray-900'
-                  }`}>
-                    {task.task}
-                  </p>
-                  <p className="text-xs text-gray-500">{task.time}</p>
+                <div className="flex flex-col items-center">
+                  <img
+                    src="https://images.pexels.com/photos/3952236/pexels-photo-3952236.jpeg?auto=compress&w=80"
+                    alt="Pads"
+                    className="w-20 h-20 object-cover rounded"
+                  />
+                  <span className="text-xs mt-1 text-center">
+                    Sterile Abdominal Pads
+                  </span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <img
+                    src="https://images.pexels.com/photos/3845129/pexels-photo-3845129.jpeg?auto=compress&w=80"
+                    alt="Commode"
+                    className="w-20 h-20 object-cover rounded"
+                  />
+                  <span className="text-xs mt-1 text-center">
+                    DMI Drop-Arm Steel Commodes
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Reminders */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Reminders</h2>
-            <Bell size={20} className="text-orange-500" />
-          </div>
-          <div className="space-y-3">
-            {upcomingReminders.map((reminder) => (
-              <div key={reminder.id} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-                <div className={`w-2 h-2 rounded-full mt-2 ${
-                  reminder.priority === 'high' ? 'bg-red-500' : 'bg-orange-500'
-                }`} />
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{reminder.type}</p>
-                  <p className="text-xs text-gray-500">{reminder.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={() => onNavigate('reminders')}
-            className="w-full mt-4 bg-orange-100 text-orange-700 py-2 rounded-lg font-medium hover:bg-orange-200 transition-colors"
-          >
-            Set New Reminder
-          </button>
-        </div>
-
-        {/* Tutorials */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Tutorials</h2>
-            <BookOpen size={20} className="text-blue-500" />
-          </div>
-          <div className="space-y-3">
-            <div className="p-3 bg-blue-50 rounded-lg">
-              <p className="text-sm font-medium text-blue-900">New Tutorial Available</p>
-              <p className="text-xs text-blue-600">Proper Eye Drop Technique</p>
-            </div>
-            <div className="p-3 bg-green-50 rounded-lg">
-              <p className="text-sm font-medium text-green-900">Completed Today</p>
-              <p className="text-xs text-green-600">Post-Surgical Care Basics</p>
+              <button className="mt-3 w-full bg-gray-400 text-white rounded py-2 font-semibold hover:bg-gray-500">
+                Shop for more products here
+              </button>
             </div>
           </div>
-          <button
-            onClick={() => onNavigate('tutorials')}
-            className="w-full mt-4 bg-blue-100 text-blue-700 py-2 rounded-lg font-medium hover:bg-blue-200 transition-colors"
-          >
-            View All Tutorials
-          </button>
         </div>
-      </div>
-
-      {/* Milestones */}
-      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-gray-900">Recovery Milestones</h2>
-          <Target size={20} className="text-green-500" />
-        </div>
-        <div className="flex items-center justify-between">
-          {milestones.map((milestone, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${
-                milestone.status === 'completed' ? 'bg-green-500 text-white' :
-                milestone.status === 'current' ? 'bg-blue-500 text-white' :
-                'bg-gray-200 text-gray-500'
-              }`}>
-                {milestone.status === 'completed' ? <CheckCircle size={16} /> : 
-                 milestone.status === 'current' ? <AlertCircle size={16} /> :
-                 <Calendar size={16} />}
-              </div>
-              <p className="text-sm font-medium text-gray-900">{milestone.day}</p>
-              <p className="text-xs text-gray-500 text-center max-w-20">{milestone.description}</p>
-            </div>
-          ))}
-        </div>
-        <button
-          onClick={() => onNavigate('milestone')}
-          className="w-full mt-6 bg-green-100 text-green-700 py-2 rounded-lg font-medium hover:bg-green-200 transition-colors"
-        >
-          Log New Milestone
-        </button>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <button
-          onClick={() => onNavigate('reminders')}
-          className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all transform hover:scale-105"
-        >
-          <Bell size={24} className="mx-auto mb-2" />
-          <p className="font-medium">Set Reminders</p>
-        </button>
-        <button
-          onClick={() => onNavigate('tutorials')}
-          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105"
-        >
-          <BookOpen size={24} className="mx-auto mb-2" />
-          <p className="font-medium">View Tutorials</p>
-        </button>
-        <button
-          onClick={() => onNavigate('milestone')}
-          className="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-xl hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
-        >
-          <Target size={24} className="mx-auto mb-2" />
-          <p className="font-medium">Log Milestone</p>
-        </button>
-      </div>
+      </main>
     </div>
   );
 };
